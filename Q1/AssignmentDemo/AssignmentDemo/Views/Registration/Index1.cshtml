@@ -1,0 +1,215 @@
+﻿@model IEnumerable<AssignmentDemo.Models.tblRegistration>
+@{
+    ViewBag.Title = "Index1";
+}
+
+<style>
+    td,th {
+         border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+}
+
+</style>
+
+<h2>Index1</h2>
+<fieldset>
+    <legend>Employee Details</legend>&nbsp
+  <form id="formid">
+         <div class="row">
+        
+        <label class="col-md-7">User Name</label>
+        <input class="col-md-5" type="text" id="UserName" />
+         <input  type="hidden" id="UserID"  value="0"/>
+        
+    </div>
+
+    <div class="row">
+        <label class="col-md-7">Password:</label>
+        <input class="col-md-5" type="text" id="Password"/>
+    </div>
+
+    <div class="row">
+        <label class="col-md-7">Conform Password:</label>
+        <input class="col-md-5" type="text" id="ConfirmPassword" />
+    </div>
+
+     <div class="row">
+        <label class="col-md-7">First Name:</label>
+        <input class="col-md-5" type="text" id="FirstName"  />
+    </div>
+
+     <div class="row">
+        <label class="col-md-3">Last Name:</label>
+        <input class="col-md-4" type="text" id="LastName" />
+    </div>
+
+     <div class="row">
+        <label class="col-md-3">EmailID:</label>
+        <input class="col-md-4" type="text" id="EmailID"  />
+    </div>
+
+     <div class="row">
+        <label class="col-md-3">Phone No:</label>
+        <input class="col-md-4" type="text" id="PhoneNo"  />
+    </div>
+
+     <div class="row">
+        <label class="col-md-3">Location:</label>
+        <input class="col-md-4" type="text" id="Location" />
+    </div> 
+    </form>
+   
+   
+    <button type="button" onclick="myfunction()">save</button></div>
+    
+    </fieldset>
+<fieldset>
+    <legend>Employee Details</legend>&nbsp
+    <table id="myTable">
+    <tr>
+        <th>Sr.No</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>EmailID</th>
+        <th>PhoneNo</th>
+        <th>Location</th>
+        <th colspan="2">Action</th>
+    </tr>
+    @{int srNo = 0;}
+    @foreach (var e in Model)
+    {
+        srNo++;
+        <tr>
+            <td width="3px">@srNo</td>
+            <td width="5px">@e.FirstName</td>
+            <td width="5px">@e.LastName</td>
+            <td width="5px">@e.EmailID</td>
+             <td width="5px">@e.PhoneNo</td>
+             <td width="5px">@e.Location</td>
+             <td width="5px"> <button  onclick="Edit(this)" data-UserID="@e.UserID" title="Edit">Edit</button> </td>
+            <td width="5px"> <button onclick="myDeleteFunction(this)" data-UserID="@e.UserID" title="delete">Delete</button> </td>
+            
+        </tr>
+                }
+</table>
+
+      </fieldset>
+
+
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+
+    function myfunction() {
+        console.log("hi");
+          var _data = [];
+          _data.push({ name: "UserID", value: ($('#UserID').val()) });
+        _data.push({ name: "UserName", value: ($('#UserName').val()) });
+        _data.push({ name: "Password", value: ($('#Password').val()) });
+        _data.push({ name: "ConfirmPassword", value: ($('#ConfirmPassword').val()) });
+        _data.push({ name: "Location", value: ($('#Location').val()) });
+        _data.push({ name: "FirstName", value: ($('#FirstName').val()) });
+        _data.push({ name: "LastName", value: ($('#LastName').val()) });
+        _data.push({ name: "EmailID", value: ($('#EmailID').val()) });
+        _data.push({ name: "PhoneNo", value: ($('#PhoneNo').val()) });
+
+        $.post("/Registration/AddDetails", _data).success(function (result)
+        {
+            alert(result.message, location.reload());
+        })
+       
+    }
+
+    function myDeleteFunction(currantButton)
+    {
+       
+        var userid1 = $(currantButton).data('userid');
+        console.log($(currantButton).data('userid'));
+        $.ajax({
+            url: "/Registration/DelDetails/",
+            type: "POST",
+            data: {UserID:userid1},
+            datatype: "json",
+            success: function (result) {
+                alert(result.message, location.reload());
+            },
+            error: function (er) {
+                alert(er);
+            }
+        });
+
+
+    }
+
+    //function myDeleteFunction(currantButton) {
+    //    var empid = $(currantButton).data('empid');
+
+    //    $.ajax({
+    //        url: '/Employee/DelEmployee',
+    //        type: "POST",
+    //        dataType: "JSON",
+    //        data: { EmpID: empid },
+    //        success: function (result) {
+    //            alert(result.Message, location.reload());
+    //        }
+    //    });
+    //}
+
+    function Edit(currantButton) {
+        console.log('Hi');
+        var userid1 = $(currantButton).data('userid');
+        console.log($(currantButton).data('userid'));
+        $.ajax({
+            url: "/Registration/Edit/",
+            type: "POST",
+            data: { UserID: userid1 },
+            datatype: "json",
+            success: function (result) {
+                $('#UserName').val(result.data.UserName),
+                    $('#Password').val(result.data.Password),
+                    $('#ConfirmPassword').val(result.data.ConfirmPassword),
+                    $('#EmailID').val(result.data.EmailID),
+                    $('#Location').val(result.data.Location),
+                    $('#FirstName').val(result.data.FirstName),
+                    $('#LastName').val(result.data.LastName),
+                    $('#PhoneNo').val(result.data.PhoneNo),
+                 $('#UserID').val(result.data.UserID)
+              //  alert(result.message, location.reload());
+            },
+            error: function (er) {
+                alert(er);
+            }
+        });
+    }
+
+    //var json = {
+    //    "UserName": $('#UserName').val(),
+    //    "Password": $('#Password').val(),
+    //    "ConfirmPassword": $('#ConfirmPassword').val(),
+    //    "FirstName": $('#FirstName').val(),
+    //     "LastName": $('#LastName').val(),
+    //    "EmailID": $('#EmailID').val(),
+    //    "PhoneNo": $('#PhoneNo').val(),
+    //     "Location": $('#Location').val() 
+    //}
+
+    //$.ajax({
+    //    url: "/AddDetails/Registration",
+    //    type: "POST",
+    //    data: json,
+    //    datatype: "json",
+    //    success: function (result) {
+    //        alert(result.message, location.reload());
+    //    },
+    //    error: function (er) {
+    //        alert(er);
+    //    }
+    //});
+  
+
+</script>

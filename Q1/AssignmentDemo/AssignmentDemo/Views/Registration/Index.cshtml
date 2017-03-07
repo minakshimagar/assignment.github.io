@@ -1,0 +1,100 @@
+﻿@model AssignmentDemo.Models.tblRegistration
+
+@{
+    ViewBag.Title = "Index";
+}
+<!DOCTYPE html>
+<h2>Index</h2>
+ 
+@using(Html.BeginForm("AddDetails","Registration","POST"))
+        {
+@Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>Employee Details</legend>
+       
+        <div class="editor-label">
+            @Html.LabelFor(model=>model.UserName)          
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.UserName)
+          @Html.ValidationMessageFor(model=>model.UserName)
+        </div>
+
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model=>model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.Password)
+            @Html.ValidationMessageFor(model=>model.Password)
+        </div>
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model=>model.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.ConfirmPassword)
+            @Html.ValidationMessageFor(model=>model.ConfirmPassword)
+        </div>
+
+
+         <div class="editor-label">
+            @Html.LabelFor(model=>model.FirstName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.FirstName)
+            @Html.ValidationMessageFor(model=>model.FirstName)
+        </div>
+
+
+           <div class="editor-label">
+            @Html.LabelFor(model=>model.LastName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.LastName)
+            @Html.ValidationMessageFor(model=>model.LastName)
+        </div>
+
+
+           <div class="editor-label">
+            @Html.LabelFor(model=>model.EmailID)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.EmailID)
+            @Html.ValidationMessageFor(model=>model.EmailID)
+        </div>
+
+
+           <div class="editor-label">
+            @Html.LabelFor(model=>model.PhoneNo)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.PhoneNo)
+            @Html.ValidationMessageFor(model=>model.PhoneNo)
+        </div>
+
+
+           <div class="editor-label">
+            @Html.LabelFor(model=>model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.Location)
+            @Html.ValidationMessageFor(model=>model.Location)
+        </div>
+
+        <div class="editor-field">
+           <button type="submit" id="btnSave" name="Command" value="Save">Save</button>
+           <button type="Reset" id="btnreset" name="Command1">Reset</button>
+        </div>
+
+
+
+
+
+
+
+    </fieldset>
+}
